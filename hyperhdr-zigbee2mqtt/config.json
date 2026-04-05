@@ -1,0 +1,69 @@
+{
+  "name": "HyperHDR Zigbee2MQTT",
+  "version": "1.42.0-hyperhdr1",
+  "slug": "hyperhdr-zigbee2mqtt",
+  "description": "Zigbee2MQTT optimized for HyperHDR high-frequency color streaming",
+  "uart": true,
+  "udev": true,
+  "url": "https://github.com/awawa-dev/zigbee2mqtt",
+  "startup": "application",
+  "services": [
+    "mqtt:need"
+  ],
+  "hassio_api": true,
+  "arch": [
+    "aarch64",
+    "amd64"
+  ],
+  "boot": "auto",
+  "init": false,
+  "ingress": true,
+  "timeout": 30,
+  "panel_icon": "mdi:zigbee",
+  "map": [
+    {
+      "type": "share",
+      "read_only": false
+    },
+    {
+      "type": "homeassistant_config",
+      "read_only": false,
+      "path": "/config"
+    },
+    {
+      "type": "addon_config",
+      "read_only": false,
+      "path": "/addon_config"
+    }
+  ],
+  "ports": {
+    "8099/tcp": null
+  },
+  "ports_description": {
+    "8099/tcp": "Frontend tcp-listen port"
+  },
+  "options": {
+    "data_path": "/config/zigbee2mqtt",
+    "mqtt": {},
+    "serial": {}
+  },
+  "schema": {
+    "data_path": "str",
+    "mqtt": {
+      "server": "str?",
+      "ca": "str?",
+      "key": "str?",
+      "cert": "str?",
+      "user": "str?",
+      "password": "str?",
+      "base_topic": "str?"
+    },
+    "serial": {
+      "port": "str?",
+      "adapter": "match(zstack|deconz|zigate|ezsp|ember|zboss)?",
+      "baudrate": "int?",
+      "rtscts": "bool?"
+    },
+    "watchdog": "str?"
+  }
+}
