@@ -18,6 +18,12 @@ RUN npm install -g pnpm
 # Allow zigbee-herdsman (git-hosted) to run build scripts
 RUN printf 'onlyBuiltDependencies:\n  - zigbee-herdsman\n' > /app/pnpm-workspace.yaml
 
+# Force pnpm to use the fork's zigbee-herdsman for ALL consumers (including
+# zigbee-herdsman-converters), preventing a dual-version TypeScript type conflict.
+# The npm "overrides" field in package.json is ignored by pnpm; pnpm.overrides is needed.
+RUN jq '.pnpm = {"overrides": {"zigbee-herdsman": .dependencies["zigbee-herdsman"]}}' \
+    /app/package.json > /tmp/pkg.json && mv /tmp/pkg.json /app/package.json
+
 # Use --no-frozen-lockfile because the herdsman dep is a git URL
 # which may not match the committed lockfile exactly
 RUN pnpm install --no-frozen-lockfile --no-optional --unsafe-perm
