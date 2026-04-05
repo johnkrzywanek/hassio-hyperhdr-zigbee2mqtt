@@ -15,6 +15,9 @@ WORKDIR /app
 
 RUN npm install -g pnpm
 
+# Allow zigbee-herdsman (git-hosted) to run build scripts
+RUN printf 'onlyBuiltDependencies:\n  - zigbee-herdsman\n' > /app/pnpm-workspace.yaml
+
 # Use --no-frozen-lockfile because the herdsman dep is a git URL
 # which may not match the committed lockfile exactly
 RUN pnpm install --no-frozen-lockfile --no-optional --unsafe-perm
